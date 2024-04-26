@@ -3,6 +3,10 @@
 
 This program utilizes Digital Signal Processing (DSP) to analyze and graphically display the spectrum of audio or other signals. It serves as a valuable tool in amateur radio and acoustic analysis, consisting of several key components:
 
+## ArduindFFT version 2.0.2 is used
+
+- ArduinoFFT has been upgraded to version 2.0.2 and the sketch has been changed.
+
 ## Initial Setup and Library Imports
 
 - `U8g2lib.h` is used for OLED display manipulation.
