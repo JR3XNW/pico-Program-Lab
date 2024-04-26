@@ -1,13 +1,13 @@
 /*
   Digital filter spectrum bar graph display program
-  2024/03/20 JR3XNW
+  2024/04/26 JR3XNW
 */
 #include <Arduino.h>
 #include <U8g2lib.h>
-#include <arduinoFFT.h>
+#include <arduinoFFT.h> // v2.0.2
 
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0);
-arduinoFFT FFT = arduinoFFT();
+ArduinoFFT<double> FFT;  // v2.0.2 Explicit data types using templates
 
 const int filterLength = 31; // Number of filter taps.
 float filterBuffer[filterLength] = {0.0};
@@ -50,9 +50,10 @@ void frequencySweep(double *vReal, double *vImag) {
 
 // FFT and OLED display functions (line graph display).
 void displayFFT(double *vReal, double *vImag) {
-  FFT.Windowing(vReal, samples, FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-  FFT.Compute(vReal, vImag, samples, FFT_FORWARD);
-  FFT.ComplexToMagnitude(vReal, vImag, samples);
+  FFT.windowing(vReal, samples, FFTWindow::Hamming, FFTDirection::Forward);  // Use new enum types instead of FFT_WIN_TYP_HAMMING and FFT_FORWARD
+  FFT.windowing(vImag, samples, FFTWindow::Hamming, FFTDirection::Forward);
+  FFT.compute(vReal, vImag, samples, FFTDirection::Forward);  // Change FFT_REVERSE to FFTDirection::Reverse
+  FFT.complexToMagnitude(vReal, vImag, samples);  // No change
 
   // Clear graph drawing area (overwrite with background color).
   // Here, the graph area is overwritten with a black rectangle.
